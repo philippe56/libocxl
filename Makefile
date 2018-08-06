@@ -12,7 +12,7 @@ SONAMEOPT = -Wl,-soname,$(LIBSONAME)
 
 DOCDIR = docs
 
-all: check_ocxl_header obj/$(LIBSONAME) obj/libocxl.so obj/libocxl.a sampleobj/memcpy
+all: check_ocxl_header obj/$(LIBSONAME) obj/libocxl.so obj/libocxl.a sampleobj/memcpy sampleobj/scm
 
 HAS_WGET = $(shell /bin/which wget > /dev/null 2>&1 && echo y || echo n)
 HAS_CURL = $(shell /bin/which curl > /dev/null 2>&1 && echo y || echo n)
@@ -55,6 +55,9 @@ obj/libocxl.a: $(OBJS)
 
 sampleobj/memcpy: sampleobj/memcpy.o-memcpy
 	$(call Q,CC, $(CC) $(CFLAGS) $(LDFLAGS) -o sampleobj/memcpy sampleobj/memcpy.o-memcpy obj/libocxl.a, sampleobj/memcpy)
+
+sampleobj/scm: sampleobj/scm.o-scm
+	$(call Q,CC, $(CC) $(CFLAGS) $(LDFLAGS) -o sampleobj/scm sampleobj/scm.o-scm obj/libocxl.a, sampleobj/scm)
 
 testobj:
 	mkdir testobj
