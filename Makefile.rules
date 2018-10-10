@@ -34,6 +34,9 @@ sampleobj/%.o-memcpy : samples/memcpy/%.c obj/libocxl.a | sampleobj
 sampleobj/%.o-scm : samples/scm/%.c obj/libocxl.a | sampleobj
 	$(call Q,CC, $(CC) $(CPPFLAGS) $(SAMPLECFLAGS) -c -o $@ $<, $@)
 
+sampleobj/%.o-lpc : samples/lpc/%.c obj/libocxl.a | sampleobj
+	$(call Q,CC, $(CC) $(CPPFLAGS) $(SAMPLECFLAGS) -c -o $@ $<, $@)
+
 datadir    ?= $(PREFIX)/share
 includedir ?= $(PREFIX)/include
 mandir     ?= $(datadir)/man
