@@ -18,13 +18,13 @@
 
 void usage(const char *prog)
 {
-	fprintf(stderr, "Usage: %s [-m] [-o offset] [-s size] [-w] [-r]\n", prog);
+	fprintf(stderr, "Usage: %s [-m] [-o offset] [-s size] [-w] [-r] [-n]\n", prog);
 	fprintf(stderr, "-m\tDump global MMIO (test LPC memory otherwise)\n");
 	fprintf(stderr, "-o\tOffset to start testing at (must be 64 bit aligned)\n");
 	fprintf(stderr, "-r\tValidate LPC contents\n");
 	fprintf(stderr, "-s\tSize to test in bytes (must be a multiple of 64 bits)\n");
 	fprintf(stderr, "-w\tWrite LPC contents\n");
-
+	fprintf(stderr, "-n\tDon't do LPC AFU mmio setup\n");
 }
 
 void dump_global_mmio(ocxl_afu_h afu)
@@ -168,9 +168,10 @@ int main(int argc, char **argv)
 	bool verbose = false;
 	bool read = false;
 	bool write = false;
-
+	bool do_mmio_setup = true;
 	int opt;
-	while ((opt = getopt(argc, argv, "mo:rs:vw")) != -1) {
+
+	while ((opt = getopt(argc, argv, "mo:rs:vwn")) != -1) {
 		switch (opt) {
 		case 'm':
 			dump_mmio = true;
@@ -194,6 +195,10 @@ int main(int argc, char **argv)
 
 		case 'w':
 			write = true;
+			break;
+
+		case 'n':
+			do_mmio_setup = false;
 			break;
 
 		default: /* '?' */
@@ -222,7 +227,7 @@ int main(int argc, char **argv)
 		ocxl_afu_enable_messages(afu, OCXL_ERRORS);
 	}
 
-	if (global_setup(afu)) {
+	if (do_mmio_setup && global_setup(afu)) {
 		exit(1);
 	}
 
