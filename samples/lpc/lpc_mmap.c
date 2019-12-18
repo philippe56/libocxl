@@ -214,11 +214,6 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 	printf("lpc_mem_size=%lx\n", ocxl_afu_get_lpc_mem_size(afu));
-	printf("lpc_mem_nodeid=%d\n", ocxl_afu_get_lpc_mem_nodeid(afu));
-	if (OCXL_OK != ocxl_afu_online_lpc_mem(afu)) {
-		fprintf(stderr, "Could not online AFU lpc memory\n");
-		exit(1);
-	}
 
 	// Enable per-AFU messages
 	if (verbose) {
@@ -230,8 +225,6 @@ int main(int argc, char **argv)
 	if (global_setup(afu)) {
 		exit(1);
 	}
-
-	return 0;
 
 	if (dump_mmio) {
 		dump_global_mmio(afu);
