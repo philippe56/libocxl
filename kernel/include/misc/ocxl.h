@@ -89,7 +89,7 @@ struct ocxl_ioctl_irq_fd {
 #define OCXL_IOCTL_GET_METADATA _IOR(OCXL_MAGIC, 0x14, struct ocxl_ioctl_metadata)
 #define OCXL_IOCTL_ENABLE_P9_WAIT	_IOR(OCXL_MAGIC, 0x15, struct ocxl_ioctl_p9_wait)
 #define OCXL_IOCTL_GET_FEATURES _IOR(OCXL_MAGIC, 0x16, struct ocxl_ioctl_features)
-#define OCXL_IOCTL_ONLINE_LPC_MEM	_IOR(OCXL_MAGIC, 0x17, __u64)
+#define OCXL_IOCTL_ONLINE_LPC_MEM	_IOR(OCXL_MAGIC, 0x17, bool)
 #define OCXL_IOCTL_GET_LPC_MEM_INFO	_IOR(OCXL_MAGIC, 0x18, struct ocxl_ioctl_lpc_mem_info)
 
 #endif /* _UAPI_MISC_OCXL_H */

@@ -31,6 +31,7 @@
 #include <sys/select.h>
 #include <sys/mman.h>  // Required for PROT_* for MMIO map calls
 #include <endian.h> // Required for htobe32 & friends in MMIO access wrappers
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -191,7 +192,7 @@ ocxl_err ocxl_afu_close(ocxl_afu_h afu);
 ocxl_err ocxl_afu_attach(ocxl_afu_h afu, uint64_t flags) LIBOCXL_WARN_UNUSED;
 
 /* AFU lpc operations */
-ocxl_err ocxl_afu_online_lpc_mem(ocxl_afu_h afu) LIBOCXL_WARN_UNUSED;
+ocxl_err ocxl_afu_online_lpc_mem(ocxl_afu_h afu, bool movable) LIBOCXL_WARN_UNUSED;
 uint32_t ocxl_afu_get_lpc_mem_nodeid(ocxl_afu_h afu) LIBOCXL_WARN_UNUSED;
 
 /* irq.c */

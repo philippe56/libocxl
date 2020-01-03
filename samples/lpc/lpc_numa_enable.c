@@ -16,9 +16,10 @@
 
 void usage(const char *prog)
 {
-	fprintf(stderr, "Usage: %s [-v] [-n]\n", prog);
+	fprintf(stderr, "Usage: %s [-v] [-n] [-m]\n", prog);
 	fprintf(stderr, "-v\tverbose mode\n");
 	fprintf(stderr, "-n\tdon't do LPC AFU mmio setup\n");
+	fprintf(stderr, "-m\tmake LPC memory movable\n");
 }
 
 /**
@@ -56,10 +57,11 @@ static bool global_setup(ocxl_afu_h afu)
 int main(int argc, char **argv)
 {
 	bool verbose = false, do_mmio_setup = true;
+	bool movable = false;
 	int opt;
 	ocxl_afu_h afu;
 
-	while ((opt = getopt(argc, argv, "vn")) != -1) {
+	while ((opt = getopt(argc, argv, "vnm")) != -1) {
 		switch (opt) {
 		case 'v':
 			verbose = true;
@@ -67,7 +69,9 @@ int main(int argc, char **argv)
 		case 'n':
 			do_mmio_setup = false;
 			break;
-
+		case 'm':
+			movable = true;
+			break;
 		default:
 			usage(argv[0]);
 			exit(EXIT_FAILURE);
@@ -94,7 +98,7 @@ int main(int argc, char **argv)
 	LOG_INF("lpc_mem_size=%lx\n", ocxl_afu_get_lpc_mem_size(afu));
 	LOG_INF("lpc_mem_nodeid=%d\n", ocxl_afu_get_lpc_mem_nodeid(afu));
 
-	if (ocxl_afu_online_lpc_mem(afu) != OCXL_OK) {
+	if (ocxl_afu_online_lpc_mem(afu, movable) != OCXL_OK) {
 		LOG_ERR("Could not online AFU lpc memory\n");
 		exit(1);
 	}

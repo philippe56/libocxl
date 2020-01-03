@@ -17,7 +17,6 @@
 #include "libocxl_internal.h"
 #include "libocxl_info.h"
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdarg.h>
 #include <unistd.h>
 #include <pthread.h>

@@ -18,7 +18,6 @@
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <stdbool.h>
 #include <unistd.h>
 #include <misc/ocxl.h>
 #include <sys/eventfd.h>
@@ -144,12 +143,13 @@ uint64_t ocxl_afu_get_lpc_mem_size(ocxl_afu_h afu)
  * Returns the lpc memory size of the AFU, as specified by the AFU implementation.
  *
  * @param afu The AFU that holds the lpc memory
+ * @param movable Make lpc memory movable
  *
  * @retval OCXL_OK if the lpc memory of the AFU was onlined
  * @retval OCXL_NO_CONTEXT if the AFU is not open
  * @retval OCXL_ALREADY_DONE if the lpc memory is already online
  */
-ocxl_err ocxl_afu_online_lpc_mem(ocxl_afu_h afu)
+ocxl_err ocxl_afu_online_lpc_mem(ocxl_afu_h afu, bool movable)
 {
         ocxl_err rc;
 
@@ -159,7 +159,7 @@ ocxl_err ocxl_afu_online_lpc_mem(ocxl_afu_h afu)
 		return rc;
 	}
 
-	rc = ioctl(afu->fd, OCXL_IOCTL_ONLINE_LPC_MEM);
+	rc = ioctl(afu->fd, OCXL_IOCTL_ONLINE_LPC_MEM, movable);
 	if (rc == -EPERM) {
 		rc = OCXL_ALREADY_DONE;
 		errmsg(afu, rc, "AFU lpc memory is already online");

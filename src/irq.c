@@ -20,7 +20,6 @@
 #include <sys/select.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <stdbool.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <sys/eventfd.h>
