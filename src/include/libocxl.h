@@ -193,6 +193,7 @@ ocxl_err ocxl_afu_attach(ocxl_afu_h afu, uint64_t flags) LIBOCXL_WARN_UNUSED;
 
 /* AFU lpc operations */
 ocxl_err ocxl_afu_online_lpc_mem(ocxl_afu_h afu, bool movable) LIBOCXL_WARN_UNUSED;
+ocxl_err ocxl_afu_offline_lpc_mem(ocxl_afu_h afu) LIBOCXL_WARN_UNUSED;
 uint32_t ocxl_afu_get_lpc_mem_nodeid(ocxl_afu_h afu) LIBOCXL_WARN_UNUSED;
 
 /* irq.c */

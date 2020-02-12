@@ -140,8 +140,6 @@ uint64_t ocxl_afu_get_lpc_mem_size(ocxl_afu_h afu)
 /**
  * Make the lpc memory of the AFU online via a numa node.
  *
- * Returns the lpc memory size of the AFU, as specified by the AFU implementation.
- *
  * @param afu The AFU that holds the lpc memory
  * @param movable Make lpc memory movable
  *
@@ -163,6 +161,33 @@ ocxl_err ocxl_afu_online_lpc_mem(ocxl_afu_h afu, bool movable)
 	if (rc == -EPERM) {
 		rc = OCXL_ALREADY_DONE;
 		errmsg(afu, rc, "AFU lpc memory is already online");
+	}
+	return rc;
+}
+
+/**
+ * Make the lpc memory of the AFU offline via a numa node.
+ *
+ * @param afu The AFU that holds the lpc memory
+ *
+ * @retval OCXL_OK if the lpc memory of the AFU was offlined
+ * @retval OCXL_NO_CONTEXT if the AFU is not open
+ * @retval OCXL_ALREADY_DONE if the lpc memory is already offline
+ */
+ocxl_err ocxl_afu_offline_lpc_mem(ocxl_afu_h afu)
+{
+        ocxl_err rc;
+
+	if (afu->fd == -1) {
+		rc = OCXL_NO_CONTEXT;
+		errmsg(afu, rc, "Attempted to offline lpc memory for a closed AFU context");
+		return rc;
+	}
+
+	rc = ioctl(afu->fd, OCXL_IOCTL_OFFLINE_LPC_MEM);
+	if (rc == -EPERM) {
+		rc = OCXL_ALREADY_DONE;
+		errmsg(afu, rc, "AFU lpc memory is already offline");
 	}
 	return rc;
 }
